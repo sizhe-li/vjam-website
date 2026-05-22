@@ -1200,3 +1200,87 @@ h1, h2, h3, h4, h5 {
   .task-tab { font-size: 0.82rem; padding: 0.42rem 0.85rem; }
   .task-prompt { font-size: 0.94rem; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Lite mode (anonymous review host) — click-to-play overlay
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Universal: when posters load before videos do, blend them in */
+.view-card video,
+.video-card video,
+.prompt-stage video.prompt-video {
+  background-color: #000;
+}
+
+/* The play-button overlay (only visible in lite mode) */
+.video-play-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 23, 26, 0.30);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: background-color .15s ease;
+  z-index: 5;
+}
+.video-play-overlay:hover {
+  background: rgba(30, 58, 138, 0.55);
+}
+.video-play-overlay .vpo-icon {
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--vjam-accent, #1e3a8a);
+  font-size: 1.35rem;
+  line-height: 1;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+  transition: transform .12s ease;
+}
+.video-play-overlay:hover .vpo-icon { transform: scale(1.06); }
+.video-play-overlay .vpo-label {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.35);
+}
+.video-play-overlay.is-loading .vpo-label::after {
+  content: 'ing…';
+}
+
+/* When the document is in lite mode, show the overlay */
+html.vjam-lite .video-play-overlay {
+  display: flex;
+}
+
+/* Lite-mode banner so reviewers know what they're seeing */
+html.vjam-lite body::before {
+  content: 'Lite preview · click any frame to play. For the full autoplay version, visit the GitHub Pages mirror.';
+  display: block;
+  background: var(--vjam-accent-soft, #eef2ff);
+  color: var(--vjam-accent, #1e3a8a);
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--vjam-rule, #eef0f2);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
