@@ -1297,3 +1297,32 @@ html.vjam-lite body::before {
   color: #fff;
   text-shadow: 0 1px 4px rgba(0,0,0,0.45);
 }
+
+/* ── Loading shimmer on video card while buffering (D) ──────────── */
+.view-card,
+.video-card,
+.prompt-stage {
+  position: relative;
+}
+.view-card.is-loading::after,
+.video-card.is-loading::after,
+.prompt-stage.is-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg,
+    rgba(255,255,255,0)   30%,
+    rgba(255,255,255,0.10) 50%,
+    rgba(255,255,255,0)   70%);
+  background-size: 200% 100%;
+  animation: vjam-shimmer 1.4s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: inherit;
+}
+@keyframes vjam-shimmer {
+  from { background-position:  200% 0; }
+  to   { background-position: -200% 0; }
+}
+/* Don't shimmer over the play overlay in lite mode */
+html.vjam-lite .video-play-overlay { z-index: 6; }

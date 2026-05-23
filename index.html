@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=15">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=16">
 
 </head>
 <body>
@@ -932,40 +932,108 @@
 </section>
 
 
-<!-- ── Task switcher + lazy-load + lite-mode JS ──────────────────── -->
+<!-- ── Task switcher + lazy-load + lite-mode JS (canplay-gated + serial grids) ── -->
 <script>
 (function () {
   // ── Mode detection ──────────────────────────────────────────────
-  // Lite mode: posters shown, videos load only on click (zero video
-  // requests on initial scroll). Triggered on the anonymous review host.
   var LITE = /(^|\.)4open\.science$/i.test(location.hostname) ||
              location.search.indexOf('lite=1') >= 0;
   if (LITE) document.documentElement.classList.add('vjam-lite');
 
+  // ── Core load/play primitives ───────────────────────────────────
   function loadVideo(v) {
     if (v.dataset.loaded === '1') return;
     v.querySelectorAll('source[data-src]').forEach(function (s) {
-      s.src = s.dataset.src;
+      if (s.dataset.src) s.src = s.dataset.src;
     });
     try { v.load(); } catch (e) {}
     v.dataset.loaded = '1';
   }
+
+  // Promise-aware play that waits for canplay when the buffer isn't ready.
+  // Replaces the previous "fire play() the same tick as load()" race that
+  // silently broke autoplay on any video > ~1MB.
   function playVideo(v) {
     loadVideo(v);
-    try { v.play(); } catch (e) {}
-  }
-  function pauseVideo(v) {
-    try { v.pause(); } catch (e) {}
+    var parent = v.parentElement;
+    if (parent) parent.classList.add('is-loading');
+    v.addEventListener('playing', function clearShimmer() {
+      if (parent) parent.classList.remove('is-loading');
+    }, { once: true });
+
+    function attempt() {
+      var p;
+      try { p = v.play(); } catch (e) { return; }
+      if (p && typeof p.then === 'function') {
+        p.catch(function () {
+          v.addEventListener('canplay', function retry() {
+            v.removeEventListener('canplay', retry);
+            try { var q = v.play(); if (q && q.catch) q.catch(function(){}); } catch(e){}
+          }, { once: true });
+        });
+      }
+    }
+    if (v.readyState >= 2) attempt();          // HAVE_CURRENT_DATA
+    else {
+      v.addEventListener('canplay',    attempt, { once: true });
+      v.addEventListener('loadeddata', attempt, { once: true });
+    }
   }
 
-  // ── Lite mode: wrap each video with a play-button overlay ───────
+  function pauseVideo(v) {
+    try { v.pause(); } catch (e) {}
+    if (v.parentElement) v.parentElement.classList.remove('is-loading');
+  }
+
+  function applyPoster(v) {
+    if (v.dataset.posterApplied === '1') return;
+    var dp = v.getAttribute('data-poster');
+    if (dp) { v.setAttribute('poster', dp); v.dataset.posterApplied = '1'; }
+  }
+
+  // ── Sequential loading per multiview grid (B) ───────────────────
+  // Within each .multiview-grid only ONE video at a time is "loading".
+  // The next video starts as soon as the active one reaches canplay
+  // (or 3.5 s timeout). Across grids, requests still flow in parallel.
+  var gridState = new WeakMap();
+  function gs(g) {
+    var s = gridState.get(g);
+    if (!s) { s = { active: 0, queue: [], started: new Set() }; gridState.set(g, s); }
+    return s;
+  }
+  function startInGrid(v, g) {
+    var s = gs(g);
+    s.active++;
+    s.started.add(v);
+    playVideo(v);
+    var released = false;
+    function release() {
+      if (released) return;
+      released = true;
+      s.active = Math.max(0, s.active - 1);
+      while (s.active < 1 && s.queue.length) {
+        startInGrid(s.queue.shift(), g);
+      }
+    }
+    v.addEventListener('canplay', release, { once: true });
+    v.addEventListener('error',   release, { once: true });
+    setTimeout(release, 3500);
+  }
+  function requestPlay(v) {
+    var grid = v.closest('.multiview-grid');
+    if (!grid) { playVideo(v); return; }
+    var s = gs(grid);
+    if (s.started.has(v)) { playVideo(v); return; }  // resume case
+    if (s.active < 1) startInGrid(v, grid);
+    else s.queue.push(v);
+  }
+
+  // ── Lite mode play-button overlay ───────────────────────────────
   function installLiteOverlay(v) {
     if (v.dataset.liteWrapped === '1') return;
-    var card = v.parentElement;  // .view-card / .video-card / .prompt-stage
+    var card = v.parentElement;
     if (!card) return;
-    if (getComputedStyle(card).position === 'static') {
-      card.style.position = 'relative';
-    }
+    if (getComputedStyle(card).position === 'static') card.style.position = 'relative';
     var btn = document.createElement('button');
     btn.className = 'video-play-overlay';
     btn.setAttribute('type', 'button');
@@ -977,21 +1045,14 @@
       btn.dataset.busy = '1';
       btn.classList.add('is-loading');
       applyPoster(v);
-
-      // Force-load with the URL even on repeat clicks
       v.querySelectorAll('source[data-src]').forEach(function (s) {
         if (s.dataset.src) s.src = s.dataset.src;
       });
       try { v.load(); } catch (e) {}
       v.dataset.loaded = '1';
-
-      var hidOverlay = false;
-      function hideOverlay() {
-        if (hidOverlay) return;
-        hidOverlay = true;
-        btn.style.display = 'none';
-      }
-      function flagError(msg) {
+      var hid = false;
+      function hide() { if (!hid) { hid = true; btn.style.display = 'none'; } }
+      function err(msg) {
         console.error('[VJAM lite] ' + msg);
         btn.classList.remove('is-loading');
         btn.classList.add('is-error');
@@ -999,72 +1060,51 @@
         var lbl = btn.querySelector('.vpo-label');
         if (lbl) lbl.textContent = 'Tap again';
       }
-
-      // Strategy: wait for the browser to say it can play, then call play().
-      // play() returns a Promise on modern browsers; catch its rejection.
       function tryPlay() {
         var p;
-        try { p = v.play(); } catch (err) { flagError('play() threw: ' + err); return; }
-        if (p && typeof p.then === 'function') {
-          p.then(hideOverlay)
-           .catch(function (err) { flagError('play() rejected: ' + (err && err.message || err)); });
-        } else {
-          hideOverlay();
-        }
+        try { p = v.play(); } catch (e) { err('play() threw: ' + e); return; }
+        if (p && typeof p.then === 'function') p.then(hide).catch(function(e){err('play() rejected: ' + (e && e.message || e));});
+        else hide();
       }
-
-      // canplay = enough data buffered to start. loadeddata also works.
       var fired = false;
-      function onReady() {
-        if (fired) return;
-        fired = true;
-        tryPlay();
-      }
-      v.addEventListener('canplay', onReady, { once: true });
+      function onReady() { if (!fired) { fired = true; tryPlay(); } }
+      v.addEventListener('canplay',    onReady, { once: true });
       v.addEventListener('loadeddata', onReady, { once: true });
-      // Surface fatal errors from the media element itself
       v.addEventListener('error', function () {
-        var err = v.error;
-        flagError('video element error code ' + (err && err.code) + ': ' + (err && err.message || 'unknown'));
+        var e = v.error;
+        err('video error ' + (e && e.code) + ': ' + (e && e.message || 'unknown'));
       }, { once: true });
-      // Hard timeout: if nothing happens in 8 s, surface the failure
-      setTimeout(function () {
-        if (!fired) flagError('timed out waiting for canplay');
-      }, 8000);
+      setTimeout(function () { if (!fired) err('timed out waiting for canplay'); }, 8000);
     });
     card.appendChild(btn);
     v.dataset.liteWrapped = '1';
   }
 
-  // ── Full mode: IntersectionObserver autoload ────────────────────
+  // ── IntersectionObservers ───────────────────────────────────────
+  // Larger rootMargin (C) — videos start loading ~600 px before viewport.
   var io = (!LITE && 'IntersectionObserver' in window) ? new IntersectionObserver(
     function (entries) {
       entries.forEach(function (e) {
         var v = e.target;
         var inactivePanel = v.closest('.task-panel:not(.is-active)');
         if (e.isIntersecting && !inactivePanel) {
-          playVideo(v);
+          requestPlay(v);     // sequential per grid, parallel across grids
         } else {
           pauseVideo(v);
         }
       });
     },
-    { threshold: 0.15, rootMargin: '0px 0px 100px 0px' }
+    { threshold: 0.0, rootMargin: '0px 0px 600px 0px' }
   ) : null;
 
-  function applyPoster(v) {
-    if (v.dataset.posterApplied === '1') return;
-    var dp = v.getAttribute('data-poster');
-    if (dp) { v.setAttribute('poster', dp); v.dataset.posterApplied = '1'; }
-  }
-  // Separate, lightweight IO purely for poster loading (fires in both modes).
+  // Posters preload a bit further out so they appear before the video does
   var posterIO = ('IntersectionObserver' in window) ? new IntersectionObserver(
     function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { applyPoster(e.target); posterIO.unobserve(e.target); }
       });
     },
-    { threshold: 0.0, rootMargin: '200px 0px 200px 0px' }
+    { threshold: 0.0, rootMargin: '800px 0px 800px 0px' }
   ) : null;
 
   function setupAll() {
@@ -1087,17 +1127,13 @@
         var on = (p.id === targetId);
         p.classList.toggle('is-active', on);
         p.querySelectorAll('video.lazy-video').forEach(function (v) {
-          if (LITE) {
-            // Pause when leaving; do not auto-play on new tab
-            if (!on) pauseVideo(v);
-          } else {
+          if (LITE) { if (!on) pauseVideo(v); }
+          else {
             if (on) {
               var r = p.getBoundingClientRect();
-              var inView = r.bottom > 0 && r.top < (window.innerHeight || 0);
-              if (inView) playVideo(v); else loadVideo(v);
-            } else {
-              pauseVideo(v);
-            }
+              if (r.bottom > 0 && r.top < (window.innerHeight || 0)) requestPlay(v);
+              else loadVideo(v);
+            } else pauseVideo(v);
           }
         });
       });
@@ -1114,14 +1150,14 @@
     if (!select) return;
     if (!LITE) {
       var active = root.querySelector('.prompt-video.is-active');
-      if (active) loadVideo(active);
+      if (active) { applyPoster(active); playVideo(active); }
     }
     select.addEventListener('change', function () {
       var targetId = select.value;
       videos.forEach(function (v) {
         var on = (v.id === targetId);
         v.classList.toggle('is-active', on);
-        if (on) { try { v.currentTime = 0; } catch(e){} if (!LITE) playVideo(v); }
+        if (on) { try { v.currentTime = 0; } catch(e){} if (!LITE) { applyPoster(v); playVideo(v); } }
         else    { pauseVideo(v); }
       });
     });
