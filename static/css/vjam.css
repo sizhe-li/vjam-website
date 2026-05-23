@@ -1284,3 +1284,16 @@ html.vjam-lite body::before {
   top: 0;
   z-index: 9999;
 }
+
+/* When the click handler fails, the overlay turns red w/ "Tap again" */
+.video-play-overlay.is-error {
+  background: rgba(180, 35, 24, 0.55);
+}
+.video-play-overlay.is-error .vpo-icon {
+  color: #b42318;
+  background: rgba(255, 255, 255, 0.95);
+}
+.video-play-overlay.is-error .vpo-label {
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.45);
+}

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=13">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=14">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
@@ -980,12 +980,63 @@
     btn.innerHTML = '<span class="vpo-icon">▶</span><span class="vpo-label">Play</span>';
     btn.addEventListener('click', function (e) {
       e.preventDefault(); e.stopPropagation();
+      if (btn.dataset.busy === '1') return;
+      btn.dataset.busy = '1';
       btn.classList.add('is-loading');
-      loadVideo(v);
-      var done = function () { btn.style.display = 'none'; };
-      v.addEventListener('playing', done, { once: true });
-      try { v.play(); } catch (e) {}
-      setTimeout(done, 1200);  // fallback if 'playing' event never fires
+
+      // Force-load with the URL even on repeat clicks
+      v.querySelectorAll('source[data-src]').forEach(function (s) {
+        if (s.dataset.src) s.src = s.dataset.src;
+      });
+      try { v.load(); } catch (e) {}
+      v.dataset.loaded = '1';
+
+      var hidOverlay = false;
+      function hideOverlay() {
+        if (hidOverlay) return;
+        hidOverlay = true;
+        btn.style.display = 'none';
+      }
+      function flagError(msg) {
+        console.error('[VJAM lite] ' + msg);
+        btn.classList.remove('is-loading');
+        btn.classList.add('is-error');
+        btn.dataset.busy = '0';
+        var lbl = btn.querySelector('.vpo-label');
+        if (lbl) lbl.textContent = 'Tap again';
+      }
+
+      // Strategy: wait for the browser to say it can play, then call play().
+      // play() returns a Promise on modern browsers; catch its rejection.
+      function tryPlay() {
+        var p;
+        try { p = v.play(); } catch (err) { flagError('play() threw: ' + err); return; }
+        if (p && typeof p.then === 'function') {
+          p.then(hideOverlay)
+           .catch(function (err) { flagError('play() rejected: ' + (err && err.message || err)); });
+        } else {
+          hideOverlay();
+        }
+      }
+
+      // canplay = enough data buffered to start. loadeddata also works.
+      var fired = false;
+      function onReady() {
+        if (fired) return;
+        fired = true;
+        tryPlay();
+      }
+      v.addEventListener('canplay', onReady, { once: true });
+      v.addEventListener('loadeddata', onReady, { once: true });
+      // Surface fatal errors from the media element itself
+      v.addEventListener('error', function () {
+        var err = v.error;
+        flagError('video element error code ' + (err && err.code) + ': ' + (err && err.message || 'unknown'));
+      }, { once: true });
+      // Hard timeout: if nothing happens in 8 s, surface the failure
+      setTimeout(function () {
+        if (!fired) flagError('timed out waiting for canplay');
+      }, 8000);
     });
     card.appendChild(btn);
     v.dataset.liteWrapped = '1';
