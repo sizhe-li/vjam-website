@@ -1268,23 +1268,6 @@ html.vjam-lite .video-play-overlay {
   display: flex;
 }
 
-/* Lite-mode banner so reviewers know what they're seeing */
-html.vjam-lite body::before {
-  content: 'Lite preview · click any frame to play. For the full autoplay version, visit the GitHub Pages mirror.';
-  display: block;
-  background: var(--vjam-accent-soft, #eef2ff);
-  color: var(--vjam-accent, #1e3a8a);
-  font-family: 'Google Sans', sans-serif;
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
-  text-align: center;
-  padding: 0.55rem 1rem;
-  border-bottom: 1px solid var(--vjam-rule, #eef0f2);
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-}
-
 /* When the click handler fails, the overlay turns red w/ "Tap again" */
 .video-play-overlay.is-error {
   background: rgba(180, 35, 24, 0.55);
