@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="VJAM: Turning Video Models into Generalist Robot Policies. A closed-loop video-to-action policy combining an action-free video world model with a Jacobian inverse dynamics model.">
-  <meta name="keywords" content="VJAM, video models, robot policy, inverse dynamics, Jacobian, manipulation">
-  <title>VJAM &mdash; Turning Video Models into Generalist Robot Policies</title>
+        content="VERA: Turning Video Models into Generalist Robot Policies. A closed-loop video-to-action policy combining an action-free video world model with a Jacobian inverse dynamics model.">
+  <meta name="keywords" content="VERA, video models, robot policy, inverse dynamics, Jacobian, manipulation">
+  <title>VERA &mdash; Turning Video Models into Generalist Robot Policies</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,600|Noto+Sans:400,500,600|JetBrains+Mono:400,500" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=18">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=19">
 
 </head>
 <body>
@@ -22,13 +22,12 @@
      ================================================================ -->
 <nav class="vjam-nav" aria-label="Section navigation">
   <div class="container is-max-desktop vjam-nav-inner">
-    <a href="#top" class="vjam-nav-brand">VJAM</a>
+    <a href="#top" class="vjam-nav-brand">VERA</a>
     <div class="vjam-nav-links">
       <a href="#method">Method</a>
       <a href="#results">Results</a>
       <a href="#ablation">Ablation</a>
       <a href="#compare">Comparison</a>
-      <a href="#bibtex">BibTeX</a>
     </div>
   </div>
 </nav>
@@ -40,12 +39,12 @@
      ================================================================ -->
 <section class="hero is-vjam-hero">
   <div class="container is-max-desktop">
-    <div class="kicker">VJAM &middot; Preprint 2026</div>
+    <div class="kicker">VERA &middot; Preprint 2026</div>
     <h1 class="publication-title">
       Turning Video Models into Generalist Robot Policies
     </h1>
     <p class="publication-subtitle">
-      <span class="note-pill">VJAM</span>&nbsp;&nbsp;the Video&ndash;Jacobian&ndash;Action Model
+      <span class="note-pill">VERA</span>&nbsp;&nbsp;the Video-to-Embodied Robot Action Model
     </p>
     <p class="is-anonymous">Anonymous Authors &middot; under double-blind review</p>
 
@@ -53,10 +52,6 @@
       <a href="./static/paper.pdf" class="button is-pub">
         <span class="icon"><i class="fas fa-file-pdf"></i></span>
         <span>Paper</span>
-      </a>
-      <a href="#bibtex" class="button is-pub is-ghost">
-        <span class="icon"><i class="fas fa-quote-left"></i></span>
-        <span>BibTeX</span>
       </a>
       <a href="#" class="button is-pub is-ghost" title="Code release pending">
         <span class="icon"><i class="fab fa-github"></i></span>
@@ -112,7 +107,7 @@
         action-free video world model with a carefully designed IDM based on the robot embodiment
         Jacobian. We find that such a structure yields a <strong>faithful</strong> video-to-action
         translator that is both data-efficient and scalable to high-dimensional action spaces. Our
-        policy, which we coin the <strong>Video&ndash;Jacobian&ndash;Action Model (VJAM)</strong>,
+        policy, which we coin the <strong>Video-to-Embodied Robot Action Model (VERA)</strong>,
         achieves strong performance across simulated and real-world benchmarks, including zero-shot
         Panda arm manipulation and 16-DoF Allegro-hand dexterous cube re-orientation. The same video
         planner can be used across multiple embodiments by pairing it with different
@@ -140,7 +135,7 @@
     </p>
     <!-- Static method figure commented out: the interactive animation below replaces it.
     <div class="figure-block">
-      <img src="./static/figures/fig2_method_overview-1.png" alt="VJAM method overview pipeline">
+      <img src="./static/figures/fig2_method_overview-1.png" alt="VERA method overview pipeline">
     </div>
     -->
 
@@ -419,7 +414,7 @@
     <h2 class="section-title">Zero-shot manipulation on a Franka Panda arm</h2>
     <p class="lede">
       After post-training the video model on DROID and pairing it with a
-      Jacobian-IDM, a single VJAM policy executes six language commands in an unseen
+      Jacobian-IDM, a single VERA policy executes six language commands in an unseen
       scene with ad-hoc camera placements — no task-specific finetuning.
       Pick a prompt below to see the wrist camera and external views side by side.
     </p>
@@ -586,20 +581,20 @@
 </section>
 
 
-<!-- ─── 2. Press Hidden Button (VJAM vs DreamZero) ────────────────────── -->
+<!-- ─── 2. Press Hidden Button (VERA vs DreamZero) ────────────────────── -->
 <section class="section" id="results-hidden-button">
   <div class="container is-max-desktop">
     <div class="kicker">Results · Reasoning through occlusions</div>
     <h2 class="section-title">Press Hidden Button</h2>
     <p class="lede">
       We cluttered the table with props and hid the target button behind a wall so it is visible from
-      only one of three camera views; an orange distractor probes instruction grounding. VJAM produces
+      only one of three camera views; an orange distractor probes instruction grounding. VERA produces
       a coherent visual plan that searches around the occluder; <em>DreamZero</em> does not.
     </p>
 
     <div class="compare-grid">
       <div class="compare-side">
-        <h3 class="compare-title">VJAM <span class="compare-tag">(ours)</span></h3>
+        <h3 class="compare-title">VERA <span class="compare-tag">(ours)</span></h3>
         <p class="task-prompt">
           <span class="task-prompt-label">Prompt</span>
           <span class="task-prompt-text">&ldquo;push the blue button.&rdquo;</span>
@@ -810,7 +805,7 @@
     <h2 class="section-title">Pushing a T-shaped block to a goal pose</h2>
     <p class="lede">
       A classical benchmark for imitation learning: planar pushing with contact-rich corner
-      regrasps. VJAM produces smooth, goal-directed rollouts that recover from mid-trajectory slips.
+      regrasps. VERA produces smooth, goal-directed rollouts that recover from mid-trajectory slips.
     </p>
     <div class="multiview-grid cols-3">
       <figure class="view-card">
@@ -1053,7 +1048,7 @@
       var hid = false;
       function hide() { if (!hid) { hid = true; btn.style.display = 'none'; } }
       function err(msg) {
-        console.error('[VJAM lite] ' + msg);
+        console.error('[VERA lite] ' + msg);
         btn.classList.remove('is-loading');
         btn.classList.add('is-error');
         btn.dataset.busy = '0';
@@ -1184,21 +1179,6 @@
       robot control. We hope our results motivate careful attention to the design and evaluation of
       future IDMs.
     </p>
-  </div>
-</section>
-
-<!-- ================================================================
-     BIBTEX
-     ================================================================ -->
-<section class="section is-shaded" id="bibtex">
-  <div class="container is-max-desktop">
-    <div class="kicker">Cite</div>
-    <h2 class="section-title">BibTeX</h2>
-    <pre class="bibtex-block">@article{vjam2026,
-  title  = {Turning Video Models into Generalist Robot Policies},
-  author = {Anonymous},
-  year   = {2026}
-}</pre>
   </div>
 </section>
 

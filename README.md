@@ -1,12 +1,12 @@
-# VJAM — Turning Video Models into Generalist Robot Policies
+# VERA — Turning Video Models into Generalist Robot Policies
 
-Project page for **VJAM**: a closed-loop video-to-action policy that pairs an action-free
+Project page for **VERA**: a closed-loop video-to-action policy that pairs an action-free
 video world model with a Jacobian inverse dynamics model.
 
 ## Live site
 
 Once GitHub Pages is enabled (Settings → Pages → Branch: `main`), the page is served at
-<https://sizhe-li.github.io/vjam-website/>.
+<<anonymized for double-blind review>>.
 
 ## Local preview
 
