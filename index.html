@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=24">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=25">
 
 </head>
 <body>
@@ -185,45 +185,42 @@
             <span class="task-prompt-text">&ldquo;place the yellow cube on top of the lego block.&rdquo;</span>
           </p>
 
-          <p class="view-row-label">(Left Three.) Real World Execution</p>
           <div class="multiview-grid cols-3">
             <figure class="view-card">
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/hand_16779706_8s.jpg">
                 <source data-src="./static/videos/results/ours-yellow-cube-on-top-of-lego-block/hand_16779706_8s.mp4" type="video/mp4">
               </video>
-              <figcaption class="view-label">Wrist camera</figcaption>
+              <figcaption class="view-label">wrist</figcaption>
             </figure>
             <figure class="view-card">
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/varied_1_35317039_8s.jpg">
                 <source data-src="./static/videos/results/ours-yellow-cube-on-top-of-lego-block/varied_1_35317039_8s.mp4" type="video/mp4">
               </video>
-              <figcaption class="view-label">External · seed A</figcaption>
+              <figcaption class="view-label">external view 1</figcaption>
             </figure>
             <figure class="view-card">
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/varied_2_39509833_8s.jpg">
                 <source data-src="./static/videos/results/ours-yellow-cube-on-top-of-lego-block/varied_2_39509833_8s.mp4" type="video/mp4">
               </video>
-              <figcaption class="view-label">External · seed B</figcaption>
+              <figcaption class="view-label">external view 2</figcaption>
             </figure>
           </div>
 
-          <p class="view-row-label">(Right Three.) Dream Rollouts</p>
           <div class="multiview-grid cols-1 panoramic-strip">
             <figure class="view-card">
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/rgb_dream_concat_8s.jpg">
                 <source data-src="./static/videos/results/ours-yellow-cube-on-top-of-lego-block/rgb_dream_concat_8s.mp4" type="video/mp4">
               </video>
-              <figcaption class="view-label">Three generated futures · time →</figcaption>
+              <figcaption class="view-label">(Left Three.) Real World Execution &nbsp;|&nbsp; (Right Three.) Dream Rollouts</figcaption>
             </figure>
           </div>
 
-          <p class="view-row-label">(Jacobian Predictions)</p>
           <div class="multiview-grid cols-1 panoramic-strip">
             <figure class="view-card">
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/jacobian_8s.jpg">
                 <source data-src="./static/videos/results/ours-yellow-cube-on-top-of-lego-block/jacobian_8s.mp4" type="video/mp4">
               </video>
-              <figcaption class="view-label">Action channels × viewpoints · time →</figcaption>
+              <figcaption class="view-label">(Jacobian Predictions)</figcaption>
             </figure>
           </div>
         </div>
