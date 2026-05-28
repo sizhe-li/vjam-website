@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=22">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=23">
 
 </head>
 <body>
@@ -184,6 +184,8 @@
             <span class="task-prompt-label">Prompt</span>
             <span class="task-prompt-text">&ldquo;place the yellow cube on top of the lego block.&rdquo;</span>
           </p>
+
+          <p class="view-row-label">Real-world execution</p>
           <div class="multiview-grid cols-3">
             <figure class="view-card">
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/hand_16779706_8s.jpg">
@@ -195,13 +197,33 @@
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/varied_1_35317039_8s.jpg">
                 <source data-src="./static/videos/results/ours-yellow-cube-on-top-of-lego-block/varied_1_35317039_8s.mp4" type="video/mp4">
               </video>
-              <figcaption class="view-label">External view · seed A</figcaption>
+              <figcaption class="view-label">External · seed A</figcaption>
             </figure>
             <figure class="view-card">
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/varied_2_39509833_8s.jpg">
                 <source data-src="./static/videos/results/ours-yellow-cube-on-top-of-lego-block/varied_2_39509833_8s.mp4" type="video/mp4">
               </video>
-              <figcaption class="view-label">External view · seed B</figcaption>
+              <figcaption class="view-label">External · seed B</figcaption>
+            </figure>
+          </div>
+
+          <p class="view-row-label">Dream rollout <span class="view-row-sub">— what the video model imagined</span></p>
+          <div class="multiview-grid cols-1 panoramic-strip">
+            <figure class="view-card">
+              <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/rgb_dream_concat_24p5s.jpg">
+                <source data-src="./static/videos/results/ours-yellow-cube-on-top-of-lego-block/rgb_dream_concat_24p5s.mp4" type="video/mp4">
+              </video>
+              <figcaption class="view-label">Generated future frames, time →</figcaption>
+            </figure>
+          </div>
+
+          <p class="view-row-label">Jacobian predictions <span class="view-row-sub">— per-pixel motion read off by the IDM</span></p>
+          <div class="multiview-grid cols-1 panoramic-strip">
+            <figure class="view-card">
+              <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-yellow-cube-on-top-of-lego-block/jacobian_24p5s.jpg">
+                <source data-src="./static/videos/results/ours-yellow-cube-on-top-of-lego-block/jacobian_24p5s.mp4" type="video/mp4">
+              </video>
+              <figcaption class="view-label">Action channels × viewpoints, time →</figcaption>
             </figure>
           </div>
         </div>
@@ -473,7 +495,7 @@
         <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/allegro-reorient-clockwise/jacobian_6s.jpg">
           <source data-src="./static/videos/results/allegro-reorient-clockwise/jacobian_6s.mp4" type="video/mp4">
         </video>
-        <figcaption class="view-label">Visuomotor Jacobian</figcaption>
+        <figcaption class="view-label">Jacobian predictions</figcaption>
       </figure>
     </div>
   </div>

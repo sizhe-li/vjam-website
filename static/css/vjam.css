@@ -1312,3 +1312,36 @@ html.vjam-lite .video-play-overlay { z-index: 6; }
 
 /* ── Hide buttons that would de-anonymize on the blind-review host ── */
 html.vjam-lite [data-hide-in-lite="1"] { display: none !important; }
+
+/* ── Row label inside a task panel (groups Real / Dream / Jacobian rows) ── */
+.view-row-label {
+  font-family: 'Google Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--vjam-accent);
+  text-align: center;
+  margin: 1.4rem auto 0.6rem;
+}
+.view-row-label .view-row-sub {
+  display: inline-block;
+  margin-left: 0.45rem;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 400;
+  color: var(--vjam-muted);
+  font-style: italic;
+  font-size: 0.92rem;
+}
+
+/* Panoramic strip — for the multi-frame concat videos (e.g. dream rollout
+   horizontal time strip). Force max-width and don't squish vertically. */
+.multiview-grid.panoramic-strip .view-card video {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: #0b0b0c;
+}
