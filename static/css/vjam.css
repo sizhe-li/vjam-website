@@ -1347,3 +1347,9 @@ html.vjam-lite [data-hide-in-lite="1"] { display: none !important; }
   object-fit: contain;
   background: #0b0b0c;
 }
+
+/* Vertical breathing room between stacked video blocks in a task panel — fixes
+   the cramped feel where captions weren't visually anchored to their video. */
+.task-panel .multiview-grid + .multiview-grid {
+  margin-top: 2.4rem;
+}
