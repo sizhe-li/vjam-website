@@ -681,7 +681,7 @@
   var LITE = /(^|\.)4open\.science$/i.test(location.hostname) ||
              location.search.indexOf('lite=1') >= 0;
   if (LITE) document.documentElement.classList.add('vjam-lite');
-  // Wire up paper button URL ONLY in non-lite mode so the arXiv link
+  // Wire up paper button URL ONLY in non-lite mode so the paper link
   // (which de-anonymizes) is not present in the served HTML on the
   // blind-review host. Constructed via concatenation so the literal URL
   // doesn't appear in served JS strings either.
