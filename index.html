@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=26">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=27">
 
 </head>
 <body>
@@ -358,58 +358,95 @@
       a coherent visual plan that searches around the occluder; <em>DreamZero</em> does not.
     </p>
 
-    <div class="compare-grid">
-      <div class="compare-side">
-        <h3 class="compare-title">VERA <span class="compare-tag">(ours)</span></h3>
-        <p class="task-prompt">
-          <span class="task-prompt-label">Prompt</span>
-          <span class="task-prompt-text">&ldquo;push the blue button.&rdquo;</span>
-        </p>
-        <div class="multiview-grid cols-2">
+    <div class="compare-vs">
+
+      <!-- ─── VERA (ours) ─── -->
+      <article class="vs-card vs-ours">
+        <header class="vs-header">
+          <div class="vs-title-wrap">
+            <h3 class="vs-title">VERA <span class="vs-method">(ours)</span></h3>
+            <p class="vs-prompt">
+              <span class="vs-prompt-label">Prompt</span>
+              <span class="vs-prompt-text">&ldquo;push the blue button.&rdquo;</span>
+            </p>
+          </div>
+          <span class="vs-badge vs-badge-ok">
+            <span class="vs-badge-mark">✓</span>
+            <span class="vs-badge-text">Succeeds</span>
+          </span>
+        </header>
+
+        <div class="multiview-grid cols-3">
           <figure class="view-card">
             <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-find-hidden-blue-button/hand_16779706.jpg">
               <source data-src="./static/videos/results/ours-find-hidden-blue-button/hand_16779706.mp4" type="video/mp4">
             </video>
-            <figcaption class="view-label">Wrist camera</figcaption>
+            <figcaption class="view-label">wrist</figcaption>
           </figure>
           <figure class="view-card">
             <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-find-hidden-blue-button/varied_1_35317039.jpg">
               <source data-src="./static/videos/results/ours-find-hidden-blue-button/varied_1_35317039.mp4" type="video/mp4">
             </video>
-            <figcaption class="view-label">External · seed A</figcaption>
+            <figcaption class="view-label">external view 1</figcaption>
           </figure>
           <figure class="view-card">
             <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-find-hidden-blue-button/varied_2_39509833.jpg">
               <source data-src="./static/videos/results/ours-find-hidden-blue-button/varied_2_39509833.mp4" type="video/mp4">
             </video>
-            <figcaption class="view-label">External · seed B</figcaption>
+            <figcaption class="view-label">external view 2</figcaption>
           </figure>
+        </div>
+
+        <div class="multiview-grid cols-1 panoramic-strip">
           <figure class="view-card">
             <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/ours-find-hidden-blue-button/policy_vis.jpg">
               <source data-src="./static/videos/results/ours-find-hidden-blue-button/policy_vis.mp4" type="video/mp4">
             </video>
-            <figcaption class="view-label">Policy visualization</figcaption>
+            <figcaption class="view-label">(Jacobian Predictions)</figcaption>
           </figure>
         </div>
-      </div>
-      <div class="compare-side">
-        <h3 class="compare-title">DreamZero <span class="compare-tag">(baseline)</span></h3>
-        <p class="task-prompt">
-          <span class="task-prompt-label">Same prompt</span>
-          <span class="task-prompt-text">&ldquo;push the blue button.&rdquo;</span>
+
+        <p class="vs-outcome">
+          The video planner imagines a path around the wall; the Jacobian IDM
+          translates that plan into an action chunk that presses the hidden target.
         </p>
+      </article>
+
+      <!-- ─── Center divider ─── -->
+      <div class="vs-divider" aria-hidden="true">
+        <span class="vs-divider-mark">vs</span>
+      </div>
+
+      <!-- ─── DreamZero (baseline) ─── -->
+      <article class="vs-card vs-baseline">
+        <header class="vs-header">
+          <div class="vs-title-wrap">
+            <h3 class="vs-title">DreamZero <span class="vs-method">(baseline)</span></h3>
+            <p class="vs-prompt">
+              <span class="vs-prompt-label">Same prompt</span>
+              <span class="vs-prompt-text">&ldquo;push the blue button.&rdquo;</span>
+            </p>
+          </div>
+          <span class="vs-badge vs-badge-fail">
+            <span class="vs-badge-mark">✗</span>
+            <span class="vs-badge-text">Fails</span>
+          </span>
+        </header>
+
         <div class="multiview-grid cols-1">
           <figure class="view-card">
             <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/dream-zero-press-blue-button-1/dreamazero_side2.jpg">
               <source data-src="./static/videos/results/dream-zero-press-blue-button-1/dreamazero_side2.mp4" type="video/mp4">
             </video>
-            <figcaption class="view-label">External view · baseline fails</figcaption>
+            <figcaption class="view-label">external view (only view available for the baseline run)</figcaption>
           </figure>
         </div>
-        <p class="compare-note">
-          The baseline approaches the wall and never reaches the hidden target.
+
+        <p class="vs-outcome">
+          The baseline approaches the wall but never reaches the hidden target.
         </p>
-      </div>
+      </article>
+
     </div>
   </div>
 </section>

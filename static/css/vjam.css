@@ -1353,3 +1353,195 @@ html.vjam-lite [data-hide-in-lite="1"] { display: none !important; }
 .task-panel .multiview-grid + .multiview-grid {
   margin-top: 2.4rem;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Compare-VS — modern two-card "ours vs baseline" comparison
+   ═══════════════════════════════════════════════════════════════ */
+
+.compare-vs {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) auto minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: stretch;
+  margin-top: 1.4rem;
+}
+
+.vs-card {
+  background: #fff;
+  border: 1px solid var(--vjam-rule);
+  border-radius: 14px;
+  padding: 1.3rem 1.3rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  position: relative;
+  box-shadow: var(--shadow-card);
+}
+.vs-ours {
+  background: linear-gradient(180deg, var(--vjam-accent-soft) 0%, #fff 35%);
+  border-color: rgba(30, 58, 138, 0.20);
+}
+.vs-baseline {
+  background: linear-gradient(180deg, #f6f1f0 0%, #fff 35%);
+  border-color: rgba(146, 86, 80, 0.20);
+}
+
+.vs-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.7rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.vs-title-wrap { min-width: 0; flex: 1 1 auto; }
+.vs-title {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.18rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  color: var(--vjam-ink);
+  letter-spacing: -0.005em;
+}
+.vs-method {
+  font-weight: 400;
+  color: var(--vjam-muted);
+  font-size: 0.88em;
+}
+.vs-prompt {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--vjam-ink);
+  line-height: 1.45;
+}
+.vs-prompt-label {
+  display: inline-block;
+  font-family: 'Google Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--vjam-accent);
+  margin-right: 0.45rem;
+  vertical-align: 0.06em;
+}
+.vs-baseline .vs-prompt-label { color: #92564f; }
+.vs-prompt-text { font-style: italic; }
+
+.vs-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.85rem 0.45rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  line-height: 1;
+}
+.vs-badge-mark {
+  width: 1.05rem;
+  height: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.vs-badge-ok {
+  background: #e7f6ec;
+  color: #1b6d36;
+  border: 1px solid #b9e3c5;
+}
+.vs-badge-ok .vs-badge-mark { background: #1b6d36; color: #fff; }
+.vs-badge-fail {
+  background: #fbe8e6;
+  color: #9a2f25;
+  border: 1px solid #f1bdb8;
+}
+.vs-badge-fail .vs-badge-mark { background: #9a2f25; color: #fff; }
+
+/* Multiview-grid spacing inside vs-card: tighter than top-level task panels */
+.vs-card .multiview-grid { margin-top: 0; }
+.vs-card .multiview-grid + .multiview-grid { margin-top: 1.1rem; }
+
+.vs-outcome {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  color: var(--vjam-muted);
+  line-height: 1.55;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Central "vs" divider — vertical line + circle mark */
+.vs-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 2rem;
+}
+.vs-divider::before {
+  content: '';
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--vjam-rule) 25%, var(--vjam-rule) 75%, transparent);
+}
+.vs-divider-mark {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border: 1px solid var(--vjam-rule);
+  border-radius: 50%;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Google Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--vjam-muted);
+  box-shadow: 0 1px 4px rgba(20,23,26,.06);
+}
+
+/* Mobile: stack the two cards, flip divider to horizontal */
+@media (max-width: 920px) {
+  .compare-vs {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  .vs-divider {
+    height: 2.6rem;
+    min-height: 2.6rem;
+  }
+  .vs-divider::before {
+    top: 50%;
+    bottom: auto;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    width: auto;
+    background: linear-gradient(90deg, transparent, var(--vjam-rule) 25%, var(--vjam-rule) 75%, transparent);
+  }
+}
+
+@media (max-width: 540px) {
+  .vs-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .vs-badge { align-self: flex-start; }
+}
