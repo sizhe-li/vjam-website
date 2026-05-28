@@ -1309,3 +1309,6 @@ html.vjam-lite .video-play-overlay {
 }
 /* Don't shimmer over the play overlay in lite mode */
 html.vjam-lite .video-play-overlay { z-index: 6; }
+
+/* ── Hide buttons that would de-anonymize on the blind-review host ── */
+html.vjam-lite [data-hide-in-lite="1"] { display: none !important; }
