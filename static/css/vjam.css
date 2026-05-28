@@ -1336,7 +1336,9 @@ html.vjam-lite [data-hide-in-lite="1"] { display: none !important; }
 }
 
 /* Panoramic strip — for the multi-frame concat videos (e.g. dream rollout
-   horizontal time strip). Force max-width and don't squish vertically. */
+   horizontal time strip). Override cols-1 max-width so it spans the full
+   container, not the narrower 760px default. Don't squish vertically. */
+.multiview-grid.cols-1.panoramic-strip { max-width: none; }
 .multiview-grid.panoramic-strip .view-card video {
   width: 100%;
   height: auto;
