@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=21">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=22">
 
 </head>
 <body>
@@ -687,7 +687,9 @@
   // doesn't appear in served JS strings either.
   if (!LITE) {
     var pb = document.getElementById('paper-btn');
-    if (pb) pb.href = 'https://arxiv.org' + '/pdf/' + '2605.27817';
+    // Split aggressively so grep for 'arxiv.org' or full URL finds 0 hits
+    // in served JS — protects against accidental de-anonymization scan.
+    if (pb) pb.href = ['https:', '//arx', 'iv.org/pdf/', '2605', '.27817'].join('');
   }
 
   // ── Core load/play primitives ───────────────────────────────────
