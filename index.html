@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=28">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=29">
 
 </head>
 <body>
@@ -433,17 +433,25 @@
           </span>
         </header>
 
-        <div class="multiview-grid cols-1">
+        <div class="multiview-grid cols-2">
           <figure class="view-card">
-            <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/dream-zero-press-blue-button-1/dreamazero_side2.jpg">
-              <source data-src="./static/videos/results/dream-zero-press-blue-button-1/dreamazero_side2.mp4" type="video/mp4">
+            <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results_h264/dreamzero-hidden-button-baseline/19-dwtdoq2i5n5pm1dSMoX5x48MjnImR9_8s.jpg">
+              <source data-src="./static/videos/results_h264/dreamzero-hidden-button-baseline/19-dwtdoq2i5n5pm1dSMoX5x48MjnImR9_8s.mp4" type="video/mp4">
             </video>
-            <figcaption class="view-label">external view (only view available for the baseline run)</figcaption>
+            <figcaption class="view-label">external view 1</figcaption>
+          </figure>
+          <figure class="view-card">
+            <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results_h264/dreamzero-hidden-button-baseline/1LfKw25SNV40YexxLNCCD4OSEY3sVDVcT_8s.jpg">
+              <source data-src="./static/videos/results_h264/dreamzero-hidden-button-baseline/1LfKw25SNV40YexxLNCCD4OSEY3sVDVcT_8s.mp4" type="video/mp4">
+            </video>
+            <figcaption class="view-label">external view 2</figcaption>
           </figure>
         </div>
 
         <p class="vs-outcome">
-          The baseline approaches the wall but never reaches the hidden target.
+          Without faithful translation, the baseline's video planner loses its reasoning
+          around the occluder — the robot stops at the wall instead of searching for the
+          hidden target.
         </p>
       </article>
 
@@ -563,13 +571,13 @@
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/allegro-sim-clockwise/1.jpg">
                 <source data-src="./static/videos/results/allegro-sim-clockwise/1.mp4" type="video/mp4">
               </video>
-              <figcaption class="view-label">Rollout · seed A</figcaption>
+              <figcaption class="view-label">Rollout</figcaption>
             </figure>
             <figure class="view-card">
               <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/allegro-sim-clockwise/2.jpg">
                 <source data-src="./static/videos/results/allegro-sim-clockwise/2.mp4" type="video/mp4">
               </video>
-              <figcaption class="view-label">Rollout · seed B</figcaption>
+              <figcaption class="view-label">(Jacobian Predictions)</figcaption>
             </figure>
           </div>
         </div>
