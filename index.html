@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=33">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=34">
 
 </head>
 <body>
@@ -520,48 +520,7 @@
 </section>
 
 
-<!-- ─── 4. Allegro Hand (real) ────────────────────────────────────────── -->
-<section class="section" id="results-allegro-real">
-  <div class="container is-max-desktop">
-    <div class="kicker">Results · Allegro Hand (real)</div>
-    <h2 class="section-title">Real-world in-hand cube reorientation</h2>
-    <p class="lede">
-      <strong>VERA admits multi-embodiment.</strong> One video planner, post-trained jointly on
-      DROID and sim+real Allegro hands &mdash; two vastly different embodiments &mdash; generates
-      successful video plans on both. Armed with an embodiment-specific Jacobian IDM, the same
-      system controls a 7-DoF arm <em>and</em> 16-DoF dexterous in-hand reorientation. The
-      real-world rollout, the dreamed future, and the Jacobian read by the IDM are shown
-      side by side below.
-    </p>
-    <p class="task-prompt">
-      <span class="task-prompt-label">Prompt</span>
-      <span class="task-prompt-text">&ldquo;rotate the cube clockwise around the vertical axis.&rdquo;</span>
-    </p>
-    <div class="multiview-grid cols-3">
-      <figure class="view-card">
-        <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/allegro-reorient-clockwise/real-world_6s.jpg">
-          <source data-src="./static/videos/results/allegro-reorient-clockwise/real-world_6s.mp4" type="video/mp4">
-        </video>
-        <figcaption class="view-label">Real-world execution</figcaption>
-      </figure>
-      <figure class="view-card">
-        <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/allegro-reorient-clockwise/dream_6s.jpg">
-          <source data-src="./static/videos/results/allegro-reorient-clockwise/dream_6s.mp4" type="video/mp4">
-        </video>
-        <figcaption class="view-label">Dream rollout</figcaption>
-      </figure>
-      <figure class="view-card">
-        <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/allegro-reorient-clockwise/jacobian_6s.jpg">
-          <source data-src="./static/videos/results/allegro-reorient-clockwise/jacobian_6s.mp4" type="video/mp4">
-        </video>
-        <figcaption class="view-label">Jacobian predictions</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-
-<!-- ─── 5. Allegro Hand (sim) ────────────────────────────────────────── -->
+<!-- ─── 4. Allegro Hand (sim) ────────────────────────────────────────── -->
 <section class="section is-shaded" id="results-allegro-sim">
   <div class="container is-max-desktop">
     <div class="kicker">Results · Allegro Hand (sim)</div>
@@ -625,6 +584,47 @@
         </div>
 
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── 5. Allegro Hand (real) ────────────────────────────────────────── -->
+<section class="section" id="results-allegro-real">
+  <div class="container is-max-desktop">
+    <div class="kicker">Results · Allegro Hand (real)</div>
+    <h2 class="section-title">Real-world in-hand cube reorientation</h2>
+    <p class="lede">
+      <strong>VERA admits multi-embodiment.</strong> One video planner, post-trained jointly on
+      DROID and sim+real Allegro hands &mdash; two vastly different embodiments &mdash; generates
+      successful video plans on both. Armed with an embodiment-specific Jacobian IDM, the same
+      system controls a 7-DoF arm <em>and</em> 16-DoF dexterous in-hand reorientation. The
+      real-world rollout, the dreamed future, and the Jacobian read by the IDM are shown
+      side by side below.
+    </p>
+    <p class="task-prompt">
+      <span class="task-prompt-label">Prompt</span>
+      <span class="task-prompt-text">&ldquo;rotate the cube clockwise around the vertical axis.&rdquo;</span>
+    </p>
+    <div class="multiview-grid cols-3">
+      <figure class="view-card">
+        <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/allegro-reorient-clockwise/real-world_6s.jpg">
+          <source data-src="./static/videos/results/allegro-reorient-clockwise/real-world_6s.mp4" type="video/mp4">
+        </video>
+        <figcaption class="view-label">Real-world execution</figcaption>
+      </figure>
+      <figure class="view-card">
+        <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/allegro-reorient-clockwise/dream_6s.jpg">
+          <source data-src="./static/videos/results/allegro-reorient-clockwise/dream_6s.mp4" type="video/mp4">
+        </video>
+        <figcaption class="view-label">Dream rollout</figcaption>
+      </figure>
+      <figure class="view-card">
+        <video loop muted playsinline preload="none" class="lazy-video" data-poster="./static/posters/results/allegro-reorient-clockwise/jacobian_6s.jpg">
+          <source data-src="./static/videos/results/allegro-reorient-clockwise/jacobian_6s.mp4" type="video/mp4">
+        </video>
+        <figcaption class="view-label">Jacobian predictions</figcaption>
+      </figure>
     </div>
   </div>
 </section>
