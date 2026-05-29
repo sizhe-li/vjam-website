@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=36">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=37">
 
 </head>
 <body>
@@ -621,6 +621,42 @@
 </section>
 
 
+<!-- ─── Allegro Hand Task Setup (moved from appendix; placed above REAL) ─── -->
+<section class="section" id="results-allegro-setup">
+  <div class="container is-max-desktop">
+    <div class="kicker">Setup &middot; Allegro Hand</div>
+    <h2 class="section-title">A 16-DoF visual challenge</h2>
+    <p class="lede">
+      Multi-fingered in-hand reorientation is a stress test for any purely visual system:
+      <strong>16 actuated joints</strong>, persistent contact, and a goal defined only by
+      the cube&rsquo;s pose. We train on cube-reorientation demonstrations with three language
+      instructions &mdash; <em>clockwise</em>, <em>counter-clockwise</em>, and
+      <em>random</em> &mdash; and let one video planner, two embodiment-specific Jacobian IDMs,
+      and closed-loop control do the rest. The real-world rollouts below show what the planner
+      imagined, what the IDM read off, and how the fingers actually moved.
+    </p>
+    <div class="figure-block">
+      <img src="./static/figures/fig3_dream_follow-1.png"
+           alt="Allegro Hand task setup: language instructions, learned Jacobian, dream vs execution">
+      <div class="figure-caption" style="max-width:880px;">
+        <strong style="color:var(--vjam-accent);">a.</strong>
+        Cube-reorientation demonstrations with three language instructions &mdash;
+        <em>clockwise</em>, <em>counter-clockwise</em>, and <em>random</em>; we evaluate
+        prompt-conditioned in-hand reorientation.
+        <br><br>
+        <strong style="color:var(--vjam-accent);">b.</strong>
+        Predicted Jacobian visualized as in the Panda setup. Columns correspond to selected
+        action channels (out of 16 total); rows correspond to viewpoints &mdash; a window into
+        how the IDM reads the planner&rsquo;s intent.
+        <br><br>
+        <strong style="color:var(--vjam-accent);">c.</strong>
+        Generated frames and executed rollouts side by side. The model orchestrates a sequence
+        of dexterous finger motions to follow the imagined plan.
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ─── 5. Allegro Hand (real) ────────────────────────────────────────── -->
 <section class="section" id="results-allegro-real">
   <div class="container is-max-desktop">
@@ -703,31 +739,6 @@
 
 <!-- Panda deep-dive figure -->
 <!-- Allegro deep-dive figure -->
-<section class="section is-shaded" id="appendix-allegro">
-  <div class="container is-max-desktop">
-    <div class="kicker">Appendix · Allegro Hand</div>
-    <h2 class="section-title">In-hand object reorientation</h2>
-    <div class="figure-block">
-      <img src="./static/figures/fig3_dream_follow-1.png"
-           alt="Zero-shot evaluation on Allegro Hand: task setup, Jacobian visualization, dream vs execution">
-      <div class="figure-caption" style="max-width:880px;">
-        <strong style="color:var(--vjam-accent);">a.</strong>
-        We train on cube-reorientation demonstrations with three language instructions —
-        <em>clockwise</em>, <em>counter-clockwise</em>, and <em>random</em> — and evaluate
-        prompt-conditioned in-hand reorientation.
-        <br><br>
-        <strong style="color:var(--vjam-accent);">b.</strong>
-        Visualization of the visuomotor Jacobian predicted by our model across a set of action
-        channels. Columns correspond to action channels; rows correspond to viewpoints.
-        <br><br>
-        <strong style="color:var(--vjam-accent);">c.</strong>
-        Generated frames and executed rollouts shown side by side, together with the text prompt.
-        The model carefully orchestrates dexterous finger motions to follow the visual plan.
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- IDM ablation -->
 <section class="section" id="appendix-ablation">
   <div class="container is-max-desktop">
