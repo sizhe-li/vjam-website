@@ -1609,33 +1609,37 @@ html.vjam-lite [data-hide-in-lite="1"] { display: none !important; }
   transform: translateY(-1px);
 }
 
-/* ── Per-video fullscreen zoom button (bottom-right of each view-card) ── */
-.view-card { position: relative; }   /* anchor for absolute button */
+/* ── Per-video fullscreen zoom (YouTube-style, always visible) ── */
+.view-card { position: relative; }
 .view-zoom-btn {
   position: absolute;
-  bottom: 3rem;              /* clear the figcaption row */
-  right: 0.55rem;
-  width: 2rem; height: 2rem;
-  border: none;
-  background: rgba(20, 23, 26, 0.60);
+  bottom: calc(2.8rem + 0.55rem);  /* clear figcaption */
+  right: 0.6rem;
+  width: 2.6rem; height: 2.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(0, 0, 0, 0.68);
   color: #fff;
-  border-radius: 6px;
+  border-radius: 9px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  z-index: 4;
-  opacity: 0.55;
-  transition: opacity .15s ease, background-color .15s ease, transform .12s ease;
-  font-family: var(--vjam-ink), sans-serif;
+  z-index: 5;
+  opacity: 0.9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  transition: opacity .15s ease, background-color .15s ease,
+              transform .15s ease, border-color .15s ease;
 }
-.view-card:hover .view-zoom-btn { opacity: 0.95; }
+.view-card:hover .view-zoom-btn,
 .view-zoom-btn:hover {
   opacity: 1;
   background: var(--vjam-accent);
-  transform: scale(1.08);
+  border-color: var(--vjam-accent);
+  transform: scale(1.09);
 }
 .view-zoom-btn:focus-visible {
   outline: 2px solid var(--vjam-accent);
@@ -1643,16 +1647,44 @@ html.vjam-lite [data-hide-in-lite="1"] { display: none !important; }
   opacity: 1;
 }
 .view-zoom-btn i { pointer-events: none; }
-
-/* When a panoramic strip is shown (1-row tall), reduce the bottom offset */
-.panoramic-strip .view-card .view-zoom-btn { bottom: 3rem; }
-
-/* Cursor hint for double-click to zoom */
+.panoramic-strip .view-card .view-zoom-btn { bottom: calc(2.8rem + 0.55rem); }
 .view-card video { cursor: zoom-in; }
 .view-card video:fullscreen { cursor: auto; }
 
-/* Lite play overlay must sit above the zoom button so it's clicked first */
+/* The lite-mode play overlay must sit above the zoom button */
 html.vjam-lite .video-play-overlay { z-index: 7; }
+
+/* ── Zoom usage hint banner (above first results section) ── */
+.zoom-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  background: linear-gradient(135deg, var(--vjam-accent-soft) 0%, #fff 100%);
+  border: 1px solid rgba(30, 58, 138, 0.18);
+  border-radius: 10px;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.92rem;
+  color: var(--vjam-ink);
+  margin: 0 auto 1.6rem;
+  max-width: 720px;
+  font-family: 'Google Sans', sans-serif;
+  text-align: center;
+}
+.zoom-hint .zoom-hint-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 0.72rem;
+  vertical-align: middle;
+}
+.zoom-hint strong { color: var(--vjam-accent); }
 
 /* ── Real-author hero block (only present on csail.mit.edu via patch) ── */
 .author-list {
