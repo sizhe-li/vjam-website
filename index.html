@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=37">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=38">
 
 </head>
 <body>
@@ -739,14 +739,17 @@
 
 <!-- Panda deep-dive figure -->
 <!-- Allegro deep-dive figure -->
-<!-- IDM ablation -->
-<section class="section" id="appendix-ablation">
+<!-- §4.2 — Designing a Faithful IDM -->
+<section class="section" id="ablation">
   <div class="container is-max-desktop">
-    <div class="kicker">Appendix · IDM ablation</div>
+    <div class="kicker">Designing a Faithful IDM</div>
     <h2 class="section-title">J-IDM scales with action dimensionality</h2>
     <p class="lede">
-      A controlled study isolates what makes faithful translation possible: gains come from
-      constraining actions to enter through a learned tangent map.
+      Closed-loop results rely on <em>faithful</em> video-to-action translation. A controlled
+      study isolates the property: comparing a Jacobian-parameterized IDM against unstructured
+      D-IDM baselines under matched data and DoF budgets, the gain comes specifically from the
+      Jacobian-based constraint &mdash; at high DoF the J-IDM holds a better data&ndash;accuracy
+      frontier across training-set sizes.
     </p>
     <div class="figure-block">
       <img src="./static/figures/fig4_idm_dof_study.png"
