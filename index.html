@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=31">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=32">
 
 </head>
 <body>
@@ -160,10 +160,12 @@
     <div class="kicker">Results · Real-world Panda</div>
     <h2 class="section-title">Zero-shot manipulation on a Franka Panda arm</h2>
     <p class="lede">
-      After post-training the video model on DROID and pairing it with a
-      Jacobian-IDM, a single VERA policy executes six language commands in an unseen
-      scene with ad-hoc camera placements — no task-specific finetuning.
-      Pick a prompt below to see the wrist camera and external views side by side.
+      Just as a video model can generate videos zero-shot in new environments, paired with
+      a faithful translator <strong>VERA performs zero-shot manipulation</strong>. Across our
+      evaluations we vary lighting, camera configuration, and object orientation and find it
+      robust to such changes — pick any of the six prompts below to see the wrist camera,
+      external views, and (for the headline task) the dreamed future side by side with the
+      Jacobian read off by the IDM.
     </p>
 
     <div class="task-switcher" data-task-switcher>
@@ -353,9 +355,11 @@
     <div class="kicker">Results · Reasoning through occlusions</div>
     <h2 class="section-title">Press Hidden Button</h2>
     <p class="lede">
-      We cluttered the table with props and hid the target button behind a wall so it is visible from
-      only one of three camera views; an orange distractor probes instruction grounding. VERA produces
-      a coherent visual plan that searches around the occluder; <em>DreamZero</em> does not.
+      To stress-test multi-view reasoning we design the &ldquo;find the button&rdquo; challenge:
+      a target is hidden behind a wall, visible from <em>only one of three cameras</em>, amid
+      distractor props on a cluttered table. DreamZero and &pi;<sub>0.5</sub> struggle to
+      locate and navigate around the wall; VERA produces coherent plans that the
+      Jacobian IDM is able to execute. The asymmetry below reveals where the failure lives.
     </p>
 
     <div class="compare-vs">
@@ -467,9 +471,11 @@
     <div class="kicker">Results · Prompt controllability</div>
     <h2 class="section-title">Same scene, three different goals</h2>
     <p class="lede">
-      With identical initial observations, the prompt alone steers the planner — and therefore the
-      robot — to different objects on the table. The video model's prompt-following capability flows
-      directly through the faithful translator into the executed action chunk.
+      <strong>Prompt-following survives the translation step.</strong> From the same initial
+      observation, three language instructions steer the video planner — and, through the
+      faithful translator, the robot itself — to three different objects on the table. None
+      of this requires per-task finetuning: the prompt grounding is inherited intact from the
+      video model.
     </p>
 
     <div class="prompt-switcher" data-prompt-switcher>
@@ -513,9 +519,12 @@
     <div class="kicker">Results · Allegro Hand (real)</div>
     <h2 class="section-title">Real-world in-hand cube reorientation</h2>
     <p class="lede">
-      A 16-DoF Allegro hand orchestrates contact-rich finger motion to rotate a cube on the
-      real robot. We show the executed rollout side-by-side with the dreamed plan and the
-      visuomotor Jacobian read off by the IDM.
+      <strong>VERA admits multi-embodiment.</strong> One video planner, post-trained jointly on
+      DROID and sim+real Allegro hands &mdash; two vastly different embodiments &mdash; generates
+      successful video plans on both. Armed with an embodiment-specific Jacobian IDM, the same
+      system controls a 7-DoF arm <em>and</em> 16-DoF dexterous in-hand reorientation. The
+      real-world rollout, the dreamed future, and the Jacobian read by the IDM are shown
+      side by side below.
     </p>
     <p class="task-prompt">
       <span class="task-prompt-label">Prompt</span>
@@ -551,8 +560,12 @@
     <div class="kicker">Results · Allegro Hand (sim)</div>
     <h2 class="section-title">Prompt-conditioned reorientation in simulation</h2>
     <p class="lede">
-      Two opposite language prompts produce opposite rotations from the same initial configuration —
-      a clean check that the video planner's instruction grounding survives the translation step.
+      In Allegro-Sim cube reorientation, the J-IDM yields a closed-loop success rate of
+      <strong>70.0&nbsp;&plusmn;&nbsp;14.5%</strong> versus <strong>0%</strong> for the
+      unstructured UniPi* baseline. The two prompts below &mdash; clockwise and
+      counter-clockwise &mdash; produce opposite rotations from the same initial cube
+      configuration: a clean visual check that the planner's instruction grounding survives
+      the 16-DoF translation step.
     </p>
 
     <div class="task-switcher" data-task-switcher>
@@ -616,8 +629,10 @@
     <div class="kicker">Results · PushT</div>
     <h2 class="section-title">Pushing a T-shaped block to a goal pose</h2>
     <p class="lede">
-      A classical benchmark for imitation learning: planar pushing with contact-rich corner
-      regrasps. VERA produces smooth, goal-directed rollouts that recover from mid-trajectory slips.
+      A planar-pushing benchmark with contact-rich corner regrasps. On <em>PushT-Sim</em>,
+      the J-IDM closes the loop at <strong>92.5&nbsp;&plusmn;&nbsp;2.1% success / 95.5%
+      task progress</strong>, vs <strong>74.4 / 84.8%</strong> for the unstructured UniPi*
+      baseline &mdash; faithful translation pays off even on a 2-DoF task.
     </p>
     <div class="multiview-grid cols-3">
       <figure class="view-card">
@@ -646,16 +661,6 @@
 <!-- ====================================================================
      METHOD APPENDIX — figures from the paper, kept as supplementary
      ==================================================================== -->
-<section class="section is-shaded-warm" id="appendix-intro">
-  <div class="container is-max-desktop">
-    <div class="kicker">Appendix</div>
-    <h2 class="section-title">Method figures from the paper</h2>
-    <p class="lede">
-      The figures below summarize task setup, learned Jacobian visualization, and the J-IDM
-      design study — provided here as supplementary reference.
-    </p>
-  </div>
-</section>
 
 <!-- Panda deep-dive figure -->
 <section class="section" id="appendix-panda">
