@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=35">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=36">
 
 </head>
 <body>
@@ -356,6 +356,39 @@
 
 
 <!-- ─── 2. Press Hidden Button (VERA vs DreamZero) ────────────────────── -->
+<!-- ─── Panda Task Setup (moved from appendix; placed above Press Hidden Button) ─── -->
+<section class="section is-shaded" id="results-panda-setup">
+  <div class="container is-max-desktop">
+    <div class="kicker">Setup &middot; Press Hidden Button</div>
+    <h2 class="section-title">How the hidden-button task is set up</h2>
+    <p class="lede">
+      Before the rollouts: an overview of the scene, the Jacobian we learn for the Panda arm,
+      and how the planner&rsquo;s dreamed future aligns with the executed motion. The videos in the
+      next section show the closed-loop result.
+    </p>
+    <div class="figure-block">
+      <img src="./static/figures/panda_result-1.png"
+           alt="Zero-shot evaluation on Panda arm: task setup, Jacobian visualization, dream vs execution">
+      <div class="figure-caption" style="max-width:880px;">
+        <strong style="color:var(--vjam-accent);">a.</strong>
+        After training on DROID, we deploy zero-shot on a Panda arm in an unseen scene with ad-hoc camera
+        placements. In <em>Press-Hidden-Button</em>, the robot must press the blue button specified by
+        the language command; the button is visible from only one of the three views, and an orange
+        distractor probes instruction grounding.
+        <br><br>
+        <strong style="color:var(--vjam-accent);">b.</strong>
+        Visualization of the visuomotor Jacobian predicted by our model across a set of action channels.
+        Columns correspond to action channels; rows correspond to viewpoints.
+        <br><br>
+        <strong style="color:var(--vjam-accent);">c.</strong>
+        Generated frames and executed rollouts shown side by side, together with the text prompt used
+        for zero-shot evaluation. The robot's actions remain closely aligned with the generated frames
+        &mdash; the IDM is doing its job.
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="results-hidden-button">
   <div class="container is-max-desktop">
     <div class="kicker">Results · Reasoning through occlusions</div>
@@ -669,33 +702,6 @@
      ==================================================================== -->
 
 <!-- Panda deep-dive figure -->
-<section class="section" id="appendix-panda">
-  <div class="container is-max-desktop">
-    <div class="kicker">Appendix · Panda</div>
-    <h2 class="section-title">Task setup, the Jacobian we learn, and dream–execution alignment</h2>
-    <div class="figure-block">
-      <img src="./static/figures/panda_result-1.png"
-           alt="Zero-shot evaluation on Panda arm: task setup, Jacobian visualization, dream vs execution">
-      <div class="figure-caption" style="max-width:880px;">
-        <strong style="color:var(--vjam-accent);">a.</strong>
-        After training on DROID, we deploy zero-shot on a Panda arm in an unseen scene with ad-hoc camera
-        placements. In <em>Press-Hidden-Button</em>, the robot must press the blue button specified by
-        the language command; the button is visible from only one of the three views, and an orange
-        distractor probes instruction grounding.
-        <br><br>
-        <strong style="color:var(--vjam-accent);">b.</strong>
-        Visualization of the visuomotor Jacobian predicted by our model across a set of action channels.
-        Columns correspond to action channels; rows correspond to viewpoints.
-        <br><br>
-        <strong style="color:var(--vjam-accent);">c.</strong>
-        Generated frames and executed rollouts shown side by side, together with the text prompt used
-        for zero-shot evaluation. The robot's actions remain closely aligned with the generated frames
-        — the IDM is doing its job.
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Allegro deep-dive figure -->
 <section class="section is-shaded" id="appendix-allegro">
   <div class="container is-max-desktop">
