@@ -1608,3 +1608,94 @@ html.vjam-lite [data-hide-in-lite="1"] { display: none !important; }
 .task-tab.is-active {
   transform: translateY(-1px);
 }
+
+/* ── Per-video fullscreen zoom button (bottom-right of each view-card) ── */
+.view-card { position: relative; }   /* anchor for absolute button */
+.view-zoom-btn {
+  position: absolute;
+  bottom: 3rem;              /* clear the figcaption row */
+  right: 0.55rem;
+  width: 2rem; height: 2rem;
+  border: none;
+  background: rgba(20, 23, 26, 0.60);
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+  opacity: 0.55;
+  transition: opacity .15s ease, background-color .15s ease, transform .12s ease;
+  font-family: var(--vjam-ink), sans-serif;
+}
+.view-card:hover .view-zoom-btn { opacity: 0.95; }
+.view-zoom-btn:hover {
+  opacity: 1;
+  background: var(--vjam-accent);
+  transform: scale(1.08);
+}
+.view-zoom-btn:focus-visible {
+  outline: 2px solid var(--vjam-accent);
+  outline-offset: 2px;
+  opacity: 1;
+}
+.view-zoom-btn i { pointer-events: none; }
+
+/* When a panoramic strip is shown (1-row tall), reduce the bottom offset */
+.panoramic-strip .view-card .view-zoom-btn { bottom: 3rem; }
+
+/* Cursor hint for double-click to zoom */
+.view-card video { cursor: zoom-in; }
+.view-card video:fullscreen { cursor: auto; }
+
+/* Lite play overlay must sit above the zoom button so it's clicked first */
+html.vjam-lite .video-play-overlay { z-index: 7; }
+
+/* ── Real-author hero block (only present on csail.mit.edu via patch) ── */
+.author-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 1.35rem;
+  margin: 1rem auto 0.55rem;
+  font-size: 1rem;
+}
+.author-list .author { display: inline-block; }
+.author-list a {
+  color: var(--vjam-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--vjam-rule);
+  text-underline-offset: 3px;
+  font-weight: 500;
+}
+.author-list a:hover {
+  color: var(--vjam-accent);
+  text-decoration-color: var(--vjam-accent);
+}
+.author-list sup {
+  font-size: 0.66em;
+  margin-left: 1px;
+  opacity: 0.85;
+  vertical-align: super;
+}
+.hero .affiliations {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.2rem 1rem;
+  margin: 0.1rem auto 0.4rem;
+  font-size: 0.88rem;
+  color: var(--vjam-muted);
+}
+.hero .affiliations sup { font-size: 0.7em; margin-right: 1px; }
+.hero .equal-contrib {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--vjam-muted);
+  font-style: italic;
+  margin: 0 auto 0.8rem;
+}
+.hero .equal-contrib sup { font-size: 0.85em; margin-right: 1px; }

@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/vjam.css?v=29">
+  <link rel="stylesheet" href="./static/css/vjam.css?v=31">
 
 </head>
 <body>
@@ -449,9 +449,10 @@
         </div>
 
         <p class="vs-outcome">
-          Without faithful translation, the baseline's video planner loses its reasoning
-          around the occluder — the robot stops at the wall instead of searching for the
-          hidden target.
+          The failure originates in the <strong>video branch itself</strong> —
+          DreamZero's dreamed future never produces a plan that finds and presses
+          the button. Coupling video prediction with an action head appears to dilute
+          the planner's visual reasoning.
         </p>
       </article>
 
@@ -924,11 +925,55 @@
     { threshold: 0.0, rootMargin: '800px 0px 800px 0px' }
   ) : null;
 
+  // ── Fullscreen zoom: dblclick on video + corner button ─────────
+  function requestFs(el) {
+    var fn = el.requestFullscreen || el.webkitRequestFullscreen ||
+             el.webkitEnterFullscreen || el.mozRequestFullScreen ||
+             el.msRequestFullscreen;
+    if (fn) { try { fn.call(el); } catch (e) {} }
+  }
+  function attachZoom(v) {
+    if (v.dataset.zoomWired === '1') return;
+    v.dataset.zoomWired = '1';
+    // double-click anywhere on the video
+    v.addEventListener('dblclick', function (e) {
+      e.preventDefault();
+      // make sure video is loaded (lite mode may have stripped src)
+      v.querySelectorAll('source[data-src]').forEach(function (s) {
+        if (s.dataset.src) s.src = s.dataset.src;
+      });
+      if (v.dataset.loaded !== '1') { try { v.load(); } catch(e){} v.dataset.loaded = '1'; }
+      requestFs(v);
+      try { v.play(); } catch (e) {}
+    });
+    // corner button
+    var card = v.parentElement;
+    if (card && !card.querySelector('.view-zoom-btn')) {
+      var btn = document.createElement('button');
+      btn.className = 'view-zoom-btn';
+      btn.type = 'button';
+      btn.title = 'Fullscreen';
+      btn.setAttribute('aria-label', 'View fullscreen');
+      btn.innerHTML = '<i class="fas fa-expand" aria-hidden="true"></i>';
+      btn.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        v.querySelectorAll('source[data-src]').forEach(function (s) {
+          if (s.dataset.src) s.src = s.dataset.src;
+        });
+        if (v.dataset.loaded !== '1') { try { v.load(); } catch(e){} v.dataset.loaded = '1'; }
+        requestFs(v);
+        try { v.play(); } catch (e) {}
+      });
+      card.appendChild(btn);
+    }
+  }
+
   function setupAll() {
     document.querySelectorAll('video.lazy-video').forEach(function (v) {
       if (posterIO) posterIO.observe(v); else applyPoster(v);
       if (LITE) installLiteOverlay(v);
       else if (io) io.observe(v);
+      attachZoom(v);
     });
   }
 
